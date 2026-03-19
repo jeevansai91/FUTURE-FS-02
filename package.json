@@ -1,0 +1,9 @@
+    {
+  "name": "future-fs-02",
+  "version": "1.0.0",
+  "scripts": {
+    "install-client": "cd client && npm install",
+    "build-client": "cd client && npm run build",
+    "vercel-build": "npm run install-client && npm run build-client"
+  }
+}
