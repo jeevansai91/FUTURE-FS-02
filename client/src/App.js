@@ -15,9 +15,10 @@ function App() {
   const [email, setEmail] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
 
+  // FIXED: Removed http://localhost:5000 to use Vercel routing
   const fetchLeads = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/leads');
+      const res = await axios.get('/api/leads');
       setLeads(res.data);
     } catch (err) {
       console.error("Error fetching leads", err);
@@ -45,41 +46,45 @@ function App() {
     setLoginPassword('');
   };
 
+  // FIXED: Changed to relative path
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/leads', { name, email });
+      await axios.post('/api/leads', { name, email });
       setName('');
       setEmail('');
       fetchLeads(); 
       alert("Lead Added Successfully!");
     } catch (err) {
-      alert("Error saving lead");
+      alert("Error saving lead. Check if your MongoDB is connected!");
     }
   };
 
+  // FIXED: Changed to relative path
   const updateStatus = async (id, newStatus) => {
     try {
-      await axios.put(`http://localhost:5000/api/leads/${id}`, { status: newStatus });
+      await axios.put(`/api/leads/${id}`, { status: newStatus });
       fetchLeads(); 
     } catch (err) {
       alert("Error updating status");
     }
   };
 
+  // FIXED: Changed to relative path
   const updateNotes = async (id, newNotes) => {
     try {
-      await axios.put(`http://localhost:5000/api/leads/${id}`, { notes: newNotes });
+      await axios.put(`/api/leads/${id}`, { notes: newNotes });
       setLeads(leads.map(lead => lead._id === id ? { ...lead, notes: newNotes } : lead));
     } catch (err) {
       console.error("Error updating notes", err);
     }
   };
 
+  // FIXED: Changed to relative path
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this lead?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/leads/${id}`);
+        await axios.delete(`/api/leads/${id}`);
         fetchLeads(); 
       } catch (err) {
         alert("Error deleting lead");
@@ -125,7 +130,6 @@ function App() {
             <button type="submit" className="login-btn">Login</button>
           </form>
 
-          {/* DEMO CREDENTIALS HINT FOR EVALUATORS */}
           <div style={{ marginTop: '20px', padding: '10px', backgroundColor: '#f9f9f9', borderRadius: '8px', border: '1px dashed #ddd' }}>
             <p style={{ margin: 0, fontSize: '0.85rem', color: '#7f8c8d' }}>
               <strong>Demo Credentials:</strong><br />
